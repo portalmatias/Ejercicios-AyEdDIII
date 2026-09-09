@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    //formulario para el ejercicio 10
+    <form action="">
+        <label for="valor1">Primer valor:</label>
+        <input type="number" id="valor1" name="valor1">
+        <label for="valor2">Segundo valor:</label>
+        <input type="number" id="valor2" name="valor2">
+        <button type="button" onclick="mostrarValores()">Mostrar</button>
+    </form>
+
+    //formulario para el ejercicio 11
+    <form action="">
+        <label for="numero_buscar">Número a buscar:</label>
+        <input type="number" id="numero_buscar" name="numero_buscar">
+        <button type="button" onclick="buscarNumero()">Buscar</button>
+    </form>
+
+    //formulario para el ejercicio 12
+    <form action="">
+        <label for="numero_mes">Numero del mes</label>
+        <input type="number" id="numero_mes" name="numero_mes">
+        <button type="button" onclick="mostrarNombreMes()">Mostrar</button>
+    </form>
+
+    //formulario para el ejercicio 13
+    <form action="">
+        <label for="numero_ciclo">Número a buscar:</label>
+        <input type="number" id="numero_ciclo" name="numero_ciclo">
+        <button type="button" onclick="buscarNumeroCiclo()">Buscar</button>
+    </form>
+    <form action="">
+        <label for="numero_includes">Número a buscar:</label>
+        <input type="number" id="numero_includes" name="numero_includes">
+        <button type="button" onclick="buscarNumeroIncludes()">Buscar</button>
+    </form>
+
+
+    //formulario para el ejercicio 14
+    <form action="">
+        <label for="texto">Ingrese un texto:</label>
+        <textarea id="texto" name="texto" height="100" width="300"></textarea>
+        <button type="button" onclick="mostrarCantidadCaracteres()">Mostrar cantidad de caracteres</button>
+        <button type="button" onclick="mostrarCantidadPalabras()">Mostrar cantidad de palabras</button>
+        <button type="button" onclick="mostrarPalabrasUnicas()">Mostrar palabras únicas</button>
+    </form>
+</body>
+
+<script>
+    // Ejercicio 1: mostrar numeros del 1 al 100
+
+    for (let i = 1; i <= 100; i++) {
+        console.log(i);
+    }
+
+    // Ejercicio 2: ingresar 3 numeros, mostrarlos en orden ascendente.
+
+    let num1 = parseInt(prompt("Ingrese el primer numero"));
+    let num2 = parseInt(prompt("Ingrese el segundo numero"));
+    let num3 = parseInt(prompt("Ingrese el tercer numero"));
+
+    if (num1 <= num2 && num1 <= num3) {
+        if (num2 <= num3) {
+            console.log(num1, num2, num3);
+        } else {
+            console.log(num1, num3, num2);
+        }
+    } else if (num2 <= num1 && num2 <= num3) {
+        if (num1 <= num3) {
+            console.log(num2, num1, num3);
+        } else {
+            console.log(num2, num3, num1);
+        }
+    } else {
+        if (num1 <= num2) {
+            console.log(num3, num1, num2);
+        } else {
+            console.log(num3, num2, num1);
+        }
+    }
+
+    // Ejercicio 3: mostrar los numeros pares de 2 al 100
+
+    for(let i = 2; i <= 100; i += 2) {
+        console.log(i);
+    }
+
+    // Ejercicio 4: mostrar los numeros impares de 1 al 99
+
+    for(let i = 1; i <= 99; i += 2) {
+        console.log(i);
+    }
+
+    // Ejercicio 5: mostrar los numeros del 1 al 100, en colores rojos los pares y en verde los impares
+
+    for(let i = 1; i <= 100; i++) {
+        if(i % 2 == 0) {
+            document.write("<span style='color: red'>" + i + "</span><br>");
+        } else {
+            document.write("<span style='color: green'>" + i + "</span><br>");
+        }
+    }
+
+    // Ejercicio 6: Imprimir las tablas de multiplicar del 1 al 10
+
+    for(let i = 1; i<=10; i++) {
+        console.log("Tabla del " + i);
+        for(let j = 1; j <= 10; j++) {
+            console.log(i + " x " + j + " = " + (i * j));
+        }
+    }
+
+    // Ejercicio 7: Ingresar los valores de ancho y alto de un rectángulo, y crear uno usando asteriscos
+
+    let ancho = parseInt(prompt("Ingrese el ancho del rectángulo"));
+    let alto = parseInt(prompt("Ingrese el alto del rectángulo"));
+
+    let rectangulo = ""
+
+    for(let fila = 1; fila <= alto; fila++) {
+        for(let columna = 1; columna <= ancho; columna++) {
+            rectangulo += "*";
+        }
+        rectangulo += "<br>";
+    }
+    document.write(rectangulo);
+
+    /*
+    Ejercicio 8: Crea un array y cárgalo con 50 valores numéricos aleatorios enteros positivos, luego: Muestra los valores por pantalla.
+
+    • Mostrar su suma y promedio
+    • Buscar y mostrar el mayor y el menor de los valores
+    • Mostrar cuántos están por encima del promedio
+    */
+
+    let array_valores_aleatorios = [];
+    let suma_valores = 0;
+    let promedio_valores = 0;
+
+    for(let i = 0; i < 50; i++) {
+        let num_aleatorio = Math.random();
+        array_valores_aleatorios[i] = Math.floor(num_aleatorio * 100) + 1;
+
+        suma_valores += array_valores_aleatorios[i];
+    }
+
+    document.write("Valores aleatorios: " + array_valores_aleatorios + "<br>");
+
+    document.write("Suma de los valores: " + suma_valores + "<br>");
+
+    promedio_valores = suma_valores / 50;
+    document.write("Promedio de los valores: " + promedio_valores + "<br>");
+
+    let valor_mayor = Math.max(...array_valores_aleatorios);
+    let valor_menor = Math.min(...array_valores_aleatorios);
+    document.write("Valor mayor: " + valor_mayor + "<br>");
+    document.write("Valor menor: " + valor_menor + "<br>");
+
+    for(let i = 0; i < 50; i++) {
+        if(array_valores_aleatorios[i] > promedio_valores) {
+            document.write("Valor por encima del promedio: " + array_valores_aleatorios[i] + "<br>");
+        }
+    }
+
+    // Ejercicio 9: Imprimir los números del 1 al 100, cuando aparezca un número divisible por 3 imprimir “Fizz”, y si es divisible por 5 imprimir “Buzz”, si es divisible por 3 y por 5 imprimir “Fizz Buzz”.
+
+    for(let i = 1; i <= 100; i++) {
+        if(i % 3 == 0 && i % 5 == 0) {
+            document.write("Fizz Buzz<br>");
+        } else if(i % 3 == 0) {
+            document.write("Fizz<br>");
+        } else if(i % 5 == 0) {
+            document.write("Buzz<br>");
+        } else {
+            document.write(i + "<br>");
+        }
+    }
+
+    //Ejercicio 10: Crea un formulario donde ingreses dos valores numéricos, y un botón “Mostrar” que muestre los valores que hay entre los dos números ingresados.
+
+    function mostrarValores() {
+        let valor1 = parseInt(document.getElementById("valor1").value);
+        let valor2 = parseInt(document.getElementById("valor2").value);
+
+        if(valor1 < valor2) {
+            for(let i = valor1 + 1; i < valor2; i++) {
+                document.write(i + "<br>");
+            }
+        } else if(valor1 > valor2) {
+            for(let i = valor2 + 1; i < valor1; i++) {
+                document.write(i + "<br>");
+            }
+        } else {
+            document.write("Los valores ingresados son iguales");
+        }
+    }
+
+
+    //11. Crea un array con 100 valores aleatorios. Luego crea un formulario donde ingreses un número y un botón “Buscar” que muestre un mensaje avisando si el número ingresado se encuentra o no en el array.
+
+    let array_100_valores = [];
+
+    for(let i = 0; i < 100; i++) {
+        let num_aleatorio = Math.random();
+        array_100_valores[i] = Math.floor(num_aleatorio * 100) + 1;
+    }
+
+    //console.log(array_100_valores);
+
+    function buscarNumero() {
+        let numero = parseInt(document.getElementById("numero_buscar").value);
+        let encontrado = false;
+
+        for(let i = 0; i < array_100_valores.length; i++) {
+            if(array_100_valores[i] == numero) {
+                encontrado = true;
+                break;
+            }
+        }
+        if(encontrado) {
+            document.write("El número " + numero + " se encuentra en el array");
+        } else {
+            document.write("El número " + numero + " no se encuentra en el array");
+        }
+    }
+
+    //12. Crea un formulario donde ingreses un número de mes y un botón mostrar que imprima en pantalla el nombre del mes correspondiente al número ingresado.
+
+    function mostrarNombreMes() {
+        let numero = document.getElementById("numero_mes").value;
+        let mes = "";
+
+        switch(numero) {
+            case 1:
+                mes = "Enero";
+                break;
+            case 2:
+                mes = "Febrero";
+                break;
+            case 3:
+                mes = "Marzo";
+                break;
+            case 4:
+                mes = "Abril";
+                break;
+            case 5:
+                mes = "Mayo";
+                break;
+            case 6:
+                mes = "Junio";
+                break;
+            case 7:
+                mes = "Julio";
+                break;
+            case 8:
+                mes = "Agosto";
+                break;
+            case 9:
+                mes = "Septiembre";
+                break;
+            case 10:
+                mes = "Octubre";
+                break;
+            case 11:
+                mes = "Noviembre";
+                break;
+            case 12:
+                mes = "Diciembre";
+                break;
+            default:
+                mes = "Numero de mes invalido";
+        }
+
+        document.write(mes);
+    }
+    
+
+    
+    //13. Crear un array con 50 valores numéricos aleatorios. Luego crear un formulario con un campo de texto que pida ingresar un número y verificar si ese número está o no en el array. Hacerlo:
+        //• Con ciclos repetitivos
+        //• Con función nativa del lenguaje (método includes)
+
+    let array_50_valores = [];
+
+    for(let i = 0; i < 50; i++) {
+        let num_aleatorio = Math.random();
+        array_50_valores[i] = Math.floor(num_aleatorio * 100) + 1;
+    }
+
+    console.log(array_50_valores);
+
+    function buscarNumeroCiclo() {
+        let numero = parseInt(document.getElementById("numero_ciclo").value);
+        let encontrado = false;
+
+        for (let i = 0; i < array_50_valores.length; i++) {
+            if (array_50_valores[i] === numero) {
+            encontrado = true;
+            break;
+            }
+        }
+        if (encontrado) {
+            document.write("El número " + numero + " se encuentra en el array");
+        } else {
+            document.write("El número " + numero + " no se encuentra en el array");
+        }
+    }
+
+    function buscarNumeroIncludes() {
+        let numero = parseInt(document.getElementById("numero_includes").value);
+        let encontrado = array_50_valores.includes(numero);
+
+        if (encontrado) {
+            document.write("El número " + numero + " se encuentra en el array");
+        } else {
+            document.write("El número " + numero + " no se encuentra en el array");
+        }
+    }
+
+
+
+    //14. Crea una página web que contenga un formulario con un área de texto, y agrega un botón para cada una de las funciones que se requieren a continuación.
+        //• Mostrar cantidad de caracteres (incluyendo el espacio en blanco)
+        //• Cantidad de palabras (separadas por espacios, coma, punto, punto y coma)
+        //• Crear un array con las palabras contenidas en el texto, pero sin repetir.
+
+    function mostrarCantidadCaracteres() {
+        let texto = document.getElementById("texto").value;
+        let cantidadCaracteres = texto.length;
+        document.write("Cantidad de caracteres: " + cantidadCaracteres);
+    }
+
+    function mostrarCantidadPalabras() {
+        let texto = document.getElementById("texto").value;
+        let palabras = texto.split(/[\s,.;]+/);
+        let cantidadPalabras = palabras.length;
+        document.write("Cantidad de palabras: " + cantidadPalabras + "<br>" + "Palabras: " + palabras);
+    }
+
+    function mostrarPalabrasUnicas() {
+        let texto = document.getElementById("texto").value;
+        let palabras = texto.split(/[\s,.;]+/);
+        
+        let palabrasUnicas = [];
+        for (let palabra of palabras) {
+            if (palabrasUnicas.includes(palabra)) {
+                console.log("Ya se encuentra esta palabra en el formulario: " + palabra);
+            } else {
+                palabrasUnicas.push(palabra);
+            }
+        }
+        document.write("Palabras únicas: " + palabrasUnicas);
+    }
+        
+</script>
+</html>
