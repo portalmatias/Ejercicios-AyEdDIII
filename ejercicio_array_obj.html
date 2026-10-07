@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio array objetos</title>
+</head>
+<body>
+    <form action="">
+        <h1>DATOS DEL PRODUCTO</h1>
+
+        <label for="codigo">Codigo</label>
+        <input type="text" name="codigo" id="codigo">
+
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" id="nombre">
+
+        <label for="precio">Precio</label>
+        <input type="number" name="precio" id="precio">
+
+        <label for="stock">Stock</label>
+        <input type="number" name="stock" id="stock">
+
+        <label for="proveedor">Proveedor</label>
+        <input type="text" name="proveedor" id="proveedor">
+
+        <p id="mensaje"></p>
+
+        <button type="button" onclick="cargar_producto()">Cargar</button>
+        <button type="button" onclick="mostrar_productos()">Mostrar</button>
+        <button type="button" onclick="buscar_producto()">Buscar por nombre</button>
+        <button type="button" onclick="mostrar_cantidad()">Cantidad de productos</button>
+
+    
+    </form>
+    <table id="tabla">
+
+    </table>
+</body>
+
+<script>
+    let productos = [];
+
+    function Producto(codigo, nombre, precio, stock, proveedor){
+        this.codigo = codigo
+        this.nombre = nombre
+        this.precio = precio
+        this.stock = stock
+        this.proveedor = proveedor
+    }
+
+    function cargar_producto() {
+        let codigo = document.getElementById("codigo").value
+        let nombre = document.getElementById("nombre").value
+        let precio = document.getElementById("precio").value
+        let stock = document.getElementById("stock").value
+        let proveedor = document.getElementById("proveedor").value
+
+        if (codigo === "" || nombre === "" || precio === "" || stock === "" || proveedor === "") {
+            document.getElementById("mensaje").innerHTML = `
+                Todos los campos son obligatorios o son erroneos.
+            `
+            
+        } else {
+            let producto = new Producto(codigo, nombre, precio, stock, proveedor)
+
+            productos.push(producto)
+
+            document.getElementById("mensaje").innerHTML = `
+                Producto con el codigo ${codigo} agregado exitosamente.
+            `
+        }
+
+        
+    }
+
+    function mostrar_productos() {
+        let tabla = `
+        <tr>
+                <th>Codigo</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Proveedor</th>
+            </tr>
+        `
+
+        for (let i = 0; i < productos.length; i++) {
+            tabla += `
+                <tr>
+                    <td>${productos[i].codigo}</td>
+                    <td>${productos[i].nombre}</td>
+                    <td>${productos[i].precio}</td>
+                    <td>${productos[i].stock}</td>
+                    <td>${productos[i].proveedor}</td>
+                </tr>
+            `
+        }
+        document.getElementById("tabla").innerHTML = tabla;
+    }
+
+    function buscar_producto() {
+        let nombre = document.getElementById("nombre").value
+
+        for (let i = 0; i < productos.length; i++) {
+            if (productos[i].nombre === nombre) {
+                document.getElementById("mensaje").innerHTML = `
+                Producto encontrado: <br>
+                NOMBRE: ${productos[i].nombre} <br>
+                CODIGO: ${productos[i].codigo} <br>
+                PRECIO: ${productos[i].precio} <br>
+                `
+            }
+            else {
+                document.getElementById("mensaje").innerHTML = `
+                Producto no encontrado
+                `
+            }
+        }
+    }
+
+    function mostrar_cantidad() {
+        let cantidad_productos = productos.length
+
+        document.getElementById("mensaje").innerHTML = `
+        Cantidad de productos encontrados: ${cantidad_productos}
+        `
+    }
+
+</script>
+
+<style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+    form {
+      width: 380px;
+      background-color: #b8bdc8;
+      padding: 15px;
+      border-radius: 12px;
+      margin: auto;
+      box-shadow: 0 0 5px 5px rgb(54, 53, 53)
+      ;
+    }
+
+    label {
+      display: block;
+    }
+    input[type=text],button{
+      width: 100%;
+    }
+    input,
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 12px;
+      outline: none;
+      margin-bottom: 18px;
+    }
+
+    button {
+      background-color: #103bd8;
+      color: white;
+    }
+
+    h1 {
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      text-align: center;
+    }
+
+    p {
+        font-size: 12px;
+        font-weight: bold;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+    table {
+        width: 100%;
+        margin-top: 20px;
+        background-color: #b8bdc8;
+    }
+
+    th {
+        background-color: #103bd8;
+        color: white;
+    }
+
+    table, th, td {
+        border: 2px solid black;
+        border-collapse: collapse;
+        text-align: center;
+
+    }
+
+
+</style>
+</html>

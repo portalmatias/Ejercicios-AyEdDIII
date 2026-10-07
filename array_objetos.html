@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array objetos</title>
+</head>
+<body>
+    <form action="">
+        <h1>Array de objetos</h1>
+        <h2>Carga de datos</h2>
+
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" id="nombre"><br>
+
+        <label for="apellido">Apellido</label>
+        <input type="text" name="apellido" id="apellido"><br>
+
+        <label for="domicilio">Domicilio</label>
+        <input type="text" name="domicilio" id="domicilio"><br>
+
+        <label for="localidad">Localidad</label>
+        <input type="text" name="localidad" id="localidad"><br>
+
+        <label for="carerra">Carrera</label>
+        <input type="text" name="carrera" id="carrera"><br>
+
+        <label for="telefono">Telefono</label>
+        <input type="tel" name="telefono" id="telefono"><br>
+
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email"><br>
+
+        <button type="button" onclick="agregar_alumno()">Agregar</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Domicilio</th>
+                    <th>Localidad</th>
+                    <th>Carrera</th>
+                    <th>Telefono</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody id="contenido_tabla"></tbody>
+        </table>
+    </form>
+</body>
+
+<script>
+    let alumnos = []
+
+    function Alumno(nombre, apellido, domicilio, localidad, carrera, telefono, email) {
+        this.nombre = nombre
+        this.apellido = apellido
+        this.domicilio = domicilio
+        this.localidad = localidad
+        this.carrera = carrera
+        this.telefono = telefono
+        this.email = email
+    }
+
+    function agregar_alumno() {
+        let nombre = document.getElementById("nombre").value
+        let apellido = document.getElementById("apellido").value
+        let domicilio = document.getElementById("domicilio").value
+        let localidad = document.getElementById("localidad").value
+        let carrera = document.getElementById("carrera").value
+        let telefono = document.getElementById("telefono").value
+        let email = document.getElementById("email").value
+
+        let alumno = new Alumno(nombre, apellido, domicilio, localidad, carrera, telefono, email)
+
+        alumnos.push(alumno)
+
+        document.getElementById("contenido_tabla").innerHTML += `
+            <tr>
+                <td>${alumno.nombre}</td>
+                <td>${alumno.apellido}</td>
+                <td>${alumno.domicilio}</td>
+                <td>${alumno.localidad}</td>
+                <td>${alumno.carrera}</td>
+                <td>${alumno.telefono}</td>
+                <td>${alumno.email}</td>
+            </tr>
+        `
+    }
+</script>
+</html>

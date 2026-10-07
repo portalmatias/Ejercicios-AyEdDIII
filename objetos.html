@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objetos - practica</title>
+</head>
+<body>
+    <form action="">
+        <label for="marca">Marca del auto</label>
+        <input type="text" name="marca" id="marca">
+
+        <label for="modelo">Modelo</label>
+        <input type="number" name="modelo" id="modelo">
+
+        <label for="color">Color</label>
+        <input type="text" name="color" id="color">
+
+        <label for="vendido_si"><input type="radio" name="vendido" id="vendido_si" checked>Vendido</label>
+        <label for="vendido_no"><input type="radio" name="vendido" id="vendido_no">No Vendido</label>
+        
+        <div id="resultado"></div>
+
+        <button type="button" onclick="crearAuto()">Aceptar</button>
+    </form>
+</body>
+
+
+<script>
+    function Auto(marca, modelo, color, vendido) {
+        this.marca = marca
+        this.modelo = modelo
+        this.color = color
+        this.vendido = vendido
+    }
+
+    function crearAuto() {
+        let marca = document.getElementById("marca").value
+        let modelo = document.getElementById("modelo").value
+        let color = document.getElementById("color").value
+        let vendido = document.getElementById("vendido_si").checked
+        
+
+        let auto = new Auto(marca, modelo, color, vendido)
+
+        document.getElementById("resultado").innerHTML = `
+            <p>Marca: ${auto.marca}</p>
+            <p>Modelo: ${auto.modelo}</p>
+            <p>Color: ${auto.color}</p> 
+            <p>Vendido: ${auto.vendido ? "Sí" : "No"}</p>
+        `
+    }
+
+    
+</script>
+</html>
