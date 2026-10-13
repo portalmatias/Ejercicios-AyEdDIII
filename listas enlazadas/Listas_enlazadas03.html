@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+
+    
+  function Lista() {
+    this.cabecera = null;
+  }
+
+  function Nodo(valor) {
+    this.valor = valor;
+    this.siguiente = null;
+  }
+
+  //metodo agregar.
+  Lista.prototype.add = function (valor) {
+    if (this.cabecera === null){
+      this.cabecera = new Nodo(valor);
+    }else{
+      //Creo una variable que guarde el enlace al siguiente nodo
+      enlace = this.cabecera;
+      while (enlace.siguiente != null) {
+        enlace = enlace.siguiente;
+      }
+      enlace.siguiente = new Nodo(valor);
+    }
+  }
+
+  let lista = new Lista();
+  lista.add(50);
+  lista.add(78);
+  lista.add(31);
+
+  console.log(lista);
+</script>
+</html>

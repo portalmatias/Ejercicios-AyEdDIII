@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listas enlazadas - carga de datos</title>
+</head>
+<body>
+    <h1>LISTAS ENLAZADAS</h1>
+    <h2>CARGA DE DATOS</h2>
+
+    <form action="">
+        <label for="valor">Valor</label>
+        <input type="number" name="valor" id="valor">
+        <button type="button" onclick="agregar()">Agregar</button>
+        <button type="button" onclick="buscar()">Buscar</button>
+    </form>
+</body>
+<style>
+    *{
+      box-sizing: border-box;
+    }
+
+    form {
+      width: 380px;
+      background-color: #222223;
+      padding: 15px;
+      margin: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 3px 3px rgb(54, 53, 53)
+    }
+
+    label {
+      display: block;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      font-weight: bold;
+      color: white;
+    }
+
+    input{
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    input[type=text],button{
+      width: 100%;
+    }
+    
+    input,
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 12px;
+      outline: none;
+      margin-bottom: 18px;
+    }
+
+    button {
+      background-color: #103bd8;
+      color: white;
+    }
+
+    h1, h2 {
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+</style>
+<script>
+// Ejercicio 1: Crea un formulario donde te pida que ingreses un valor, además crea los botones:
+
+
+// Agregar - Buscar
+
+  function Lista() {
+    this.cabecera = null;
+  }
+
+  function Nodo(valor) {
+    this.valor = valor;
+    this.siguiente = null;
+  }
+
+Lista.prototype.add = function (valor) {
+    if (this.cabecera === null){
+      this.cabecera = new Nodo(valor);
+    }else{
+      //Creo una variable que guarde el enlace al siguiente nodo
+      enlace = this.cabecera;
+      while (enlace.siguiente != null) {
+        enlace = enlace.siguiente;
+      }
+      enlace.siguiente = new Nodo(valor);
+    }
+}
+
+Lista.prototype.buscar = function (valor) {
+    if (this.cabecera.valor === valor){
+        return true;
+    }else{
+        let referencia = this.cabecera;
+        while (referencia.siguiente !=null) {
+            if (referencia.siguiente.valor == valor){
+                return true;
+            }else{
+                referencia = referencia.siguiente;
+            }
+        }
+        return false;
+    }
+}
+
+let lista = new Lista();
+
+function agregar() {
+    let valor = document.getElementById("valor").value;
+    lista.add(valor);
+    console.log(lista);
+}
+
+function buscar() {
+    let valor = document.getElementById("valor").value;
+    busqueda = lista.buscar(valor);
+
+    if(busqueda == true) {
+        console.log(`El número ${valor} existe en la lista enlazada.`);
+    } else {
+        console.log(`El número ${valor} NO existe en la lista enlazada.`);
+    }
+}
+
+</script>
+</html>

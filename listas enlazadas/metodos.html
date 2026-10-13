@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    //metodo buscar.
+    Lista.prototype.buscar = function (valor) {
+    if (this.cabecera.valor === valor){
+        return true;
+    }else{
+        let referencia = this.cabecera;
+        while (referencia.siguiente !=null) {
+            if (referencia.siguiente.valor == valor){
+                return true;
+            }else{
+                referencia = referencia.siguiente;
+            }
+        }
+        return false;
+    }
+    }
+
+    //uso del metodo buscar.
+    let lista = new Lista();
+    lista.add(50);
+    lista.add(78);
+    lista.add(31);
+
+    if (lista.buscar(31)==true){
+        console.log("SI esta");
+    }else{
+        console.log("No está");
+    }
+
+
+
+    //metodo reemplazar.
+    Lista.prototype.modificar = function (valor, nuevoValor) {
+    if (this.cabecera.valor == valor){
+        this.cabecera.valor = nuevoValor;
+        return true;
+    }else{
+        var referencia = this.cabecera;
+        while (referencia.siguiente !=null) {
+        if (referencia.siguiente.valor === valor){
+            referencia.siguiente.valor = nuevoValor;
+            return true;
+        }else{
+            referencia = referencia.siguiente;
+        }
+        }
+        return false;
+    }
+    }
+
+    //uso del metodo reemplazar.
+    if (lista.modificar(31,999)== true){
+        console.log("Modificacion exitosa");
+    }else{
+        console.log("No se pudo modificar");
+    }
+
+
+    //metodo eliminar.
+    Lista.prototype.eliminar = function (valor) {
+    if (this.cabecera.valor == valor) {
+        if (this.cabecera.siguiente == null) {
+        this.cabecera = null;
+        } else {
+        this.cabecera = this.cabecera.siguiente;
+        }
+        return true;
+    } else {
+        referencia = this.cabecera;
+        while (referencia.siguiente != null) {
+        if (referencia.siguiente.valor == valor) {
+            if (referencia.siguiente.siguiente == null) {
+            referencia.siguiente = null;
+            } else {
+            referencia.siguiente = referencia.siguiente.siguiente;
+            }
+            return true;
+        } else {
+            referencia = referencia.siguiente;
+        }
+        }
+        return false;
+    }
+    }
+
+
+    //uso del metodo eliminar.
+    if (lista.eliminar(31)==true){
+        console.log("Si se pudo eliminar");
+    }else{
+        console.log("No se pudo eliminar");
+    }
+</script>
+</html>

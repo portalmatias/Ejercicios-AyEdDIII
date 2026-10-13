@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+  function Lista() {
+    this.cabecera = null;
+  }
+
+  function Nodo(valor) {
+    this.valor = valor;
+    this.siguiente = null;
+  }
+
+  let lista = new Lista();
+  let nodo1 = new Nodo(50);
+  let nodo2 = new Nodo(78);
+  let nodo3 = new Nodo(31);
+
+  lista.cabecera = nodo1;
+  nodo1.siguiente = nodo2;
+  nodo2.siguiente = nodo3;
+
+  //lista.cabecera = new Nodo(50);
+  //lista.cabecera.siguiente = new Nodo(78);
+  //lista.cabecera.siguiente.siguiente = new Nodo(31);
+
+  console.log(lista);
+</script>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+    let principal = {
+        enlace:null
+    }
+
+    let nodo1 = {
+        valor: 50,
+        siguiente: null
+    }
+
+    let nodo2 = {
+        valor: 78,
+        siguiente: null
+    }
+
+    let nodo3 = {
+        valor: 31,
+        siguiente: null
+    }
+
+    principal.enlace = nodo1;
+    //principal.enlace.siguiente = nodo2;
+    nodo1.siguiente = nodo2;
+    //principal.enlace.siguiente.siguiente = nodo3;
+    nodo2.siguiente = nodo3;
+
+    console.log(principal);
+</script>
+</html>

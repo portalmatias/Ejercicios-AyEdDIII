@@ -173,15 +173,16 @@
 
     for(let i = 1; i <= 100; i++) {
         if(i % 3 == 0 && i % 5 == 0) {
-            document.write("Fizz Buzz<br>");
+            document.write("Fizz Buzz" + "<br>");
         } else if(i % 3 == 0) {
-            document.write("Fizz<br>");
+            document.write("Fizz" + "<br>");
         } else if(i % 5 == 0) {
-            document.write("Buzz<br>");
+            document.write("Buzz" + "<br>");
         } else {
             document.write(i + "<br>");
         }
     }
+
 
     //Ejercicio 10: Crea un formulario donde ingreses dos valores numéricos, y un botón “Mostrar” que muestre los valores que hay entre los dos números ingresados.
 
@@ -233,7 +234,7 @@
 
     //12. Crea un formulario donde ingreses un número de mes y un botón mostrar que imprima en pantalla el nombre del mes correspondiente al número ingresado.
 
-    function mostrarNombreMes() {
+    /* function mostrarNombreMes() {
         let numero = document.getElementById("numero_mes").value;
         let mes = "";
 
@@ -279,6 +280,17 @@
         }
 
         document.write(mes);
+    } */
+
+    function mostrarNombreMes() {
+        let num = document.getElementById("numero_mes").value
+        let meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo","Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre","Diciembre"]
+        
+        for (let i = 0; i < meses.length; i++) {  
+            if (num == i + 1) {
+                document.write(meses[i])
+            }
+        }
     }
     
 
