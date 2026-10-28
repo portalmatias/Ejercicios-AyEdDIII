@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3</title>
+</head>
+<body>
+    
+</body>
+<script>
+// Crear un array con 50 números aleatorios (entre 1 y 1000), mostrarlos en pantalla y mostrar debajo el texto “El mayor es…”, mostrando el mayor de los números generados.
+
+let array = []
+
+function generarNumerosAleatorios(n) {
+    if (n > 0) {
+        let numeroAleatorio = Math.floor(Math.random() * 1000) + 1;
+        array.push(numeroAleatorio);
+        generarNumerosAleatorios(n - 1);
+    } else {
+        document.write("Números generados: " + array.join() + "<br>");
+        let mayor = Math.max(...array);
+        document.write("El mayor es: " + mayor);
+    }
+}
+
+generarNumerosAleatorios(50);
+
+
+
+</script>
+</html>

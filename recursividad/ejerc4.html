@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 4</title>
+</head>
+<body>
+    <form action="form">
+        <label for="valor">Valor</label>
+        <input type="number" name="valor" id="valor">
+
+        <button type="button" onclick="conteoRegresivo()">Conteo Regresivo</button>
+    </form>
+    
+</body>
+ <script>
+//4. Crea un formulario donde ingreses un número mayor a 1 y que imprima un conteo regresivo desde ese número ingresado hasta 1.
+
+
+function conteoRegresivo() {
+    let valor = parseInt(document.getElementById("valor").value);
+    if (valor > 1) {
+        function contar(n) {
+            if (n >= 1) {
+                document.write(n + "<br>");
+                contar(n - 1);
+            }
+        }
+        contar(valor);
+    } else {
+        alert("Por favor, ingresa un numero mayor a 1");
+    }
+}
+ </script>
+</html>

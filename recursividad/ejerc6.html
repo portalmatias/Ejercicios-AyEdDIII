@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 6</title>
+</head>
+<body>
+
+    <form>
+        <label for="texto">Texto (30 caracteres)</label>
+        <input type="text" name="texto" id="texto">
+
+        <label for="caracter">Carácter</label>
+        <input type="text" name="caracter" id="caracter">
+
+        <button type="button" onclick="contarCaracter()">Contar Caracter</button>
+    </form>
+    
+</body>
+
+<script>    
+    // 6. Crea un formulario con dos cuadros de texto, uno solicitará un texto de 30 caracteres y otro que solo ingrese un carácter. Realiza una función que muestre cuántas veces aparece el carácter en el texto ingresado.
+
+    function contarCaracter() {
+        let texto = document.getElementById("texto").value;
+        let caracter = document.getElementById("caracter").value;
+
+        if (texto.length > 30) {
+            alert("El texto debe tener máximo 30 caracteres");
+            return false;
+        }
+
+        if (caracter.length !== 1) {
+            alert("Debe ingresar un solo carácter");
+            return false;
+        }
+
+        function contarRecursivo(texto, caracter) {
+            if (texto.length === 0) {
+                return 0;
+            } else {
+                if (texto[0] === caracter) {
+                    return 1 + contarRecursivo(texto.slice(1), caracter);
+                } else {
+                    return contarRecursivo(texto.slice(1), caracter);
+                }
+            }
+        }
+
+        let cantidad = contarRecursivo(texto, caracter);
+        alert(`El caracter "${caracter}" aparece ${cantidad} veces en el texto`);
+    }
+</script>
+</html>

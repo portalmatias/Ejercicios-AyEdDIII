@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 2</title>
+</head>
+<body>
+    <form action="">
+        <label for="valor">Valor</label>
+        <input type="number" name="valor" id="valor">
+
+        <button type="button" onclick="sumatoria()">Sumatoria</button>
+        <button type="button" onclick="factorial()">Factorial</button>
+    </form>
+</body>
+
+<script>
+
+//Crear un formulario que solicite el ingreso de un número. Agregar los botones “Sumatoria” y “Factorial”, los cuales mostrarán en pantalla la sumatoria y el factorial del número ingresado.
+
+
+function sumatoria() {
+    let valor = parseInt(document.getElementById("valor").value);
+    let resultado = 0;
+
+    function sumaRecursiva(n) {
+        if (n == 1) {
+            return 1;
+        } else {
+            return n + sumaRecursiva(n - 1);
+        }
+    }
+
+    resultado = sumaRecursiva(valor);
+    alert("La sumatoria es: " + resultado);
+}
+
+function factorial() {
+    let valor = parseInt(document.getElementById("valor").value);
+    let resultado = 1;
+
+    function factorialRecursivo(n) {
+        if (n == 1) {
+            return 1;
+        } else {
+            return n * factorialRecursivo(n - 1);
+        }
+    }
+
+    resultado = factorialRecursivo(valor);
+    alert("El factorial es: " + resultado);
+}
+</script>
+</html>

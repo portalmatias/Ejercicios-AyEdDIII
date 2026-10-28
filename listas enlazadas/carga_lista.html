@@ -14,7 +14,11 @@
         <input type="number" name="valor" id="valor">
         <button type="button" onclick="agregar()">Agregar</button>
         <button type="button" onclick="buscar()">Buscar</button>
+        <button type="button" onclick="eliminar()">Eliminar</button>
+        <button type="button" onclick="mostrar()">Mostrar</button>
     </form>
+
+    <div id="mostrar"></div>
 </body>
 <style>
     *{
@@ -66,12 +70,42 @@
       margin-bottom: 30px;
     }
 
+    #mostrar {
+      display: flex;
+      width: max-content;
+      gap: 5px;
+      margin: auto;
+      margin-top: 20px;
+    }
+
+    .valores {
+      background-color: #222223;
+      color: #fefefe;
+      width: 60px;
+      height: 60px;
+      border-radius: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    p {
+      background-color: #222223;
+      color: #fefefe;
+      display: flex;
+      width: max-content;
+      height: 60px;
+      justify-content: center;
+      align-items: center;
+      padding: 0 10px;
+      border-radius: 30px;
+    }
+
 </style>
 <script>
 // Ejercicio 1: Crea un formulario donde te pida que ingreses un valor, además crea los botones:
 
-
-// Agregar - Buscar
+// Agregar
 
   function Lista() {
     this.cabecera = null;
@@ -95,6 +129,8 @@ Lista.prototype.add = function (valor) {
     }
 }
 
+
+// Buscar
 Lista.prototype.buscar = function (valor) {
     if (this.cabecera.valor === valor){
         return true;
@@ -111,23 +147,93 @@ Lista.prototype.buscar = function (valor) {
     }
 }
 
+// Eliminar 
+Lista.prototype.eliminar = function (valor) {
+    if (this.cabecera.valor == valor) {
+        if (this.cabecera.siguiente == null) {
+        this.cabecera = null;
+        } else {
+        this.cabecera = this.cabecera.siguiente;
+        }
+        return true;
+    } else {
+        referencia = this.cabecera;
+        while (referencia.siguiente != null) {
+        if (referencia.siguiente.valor == valor) {
+            if (referencia.siguiente.siguiente == null) {
+            referencia.siguiente = null;
+            } else {
+            referencia.siguiente = referencia.siguiente.siguiente;
+            }
+            return true;
+        } else {
+            referencia = referencia.siguiente;
+        }
+        }
+        return false;
+    }
+}
+
+// Mostrar
+Lista.prototype.mostrar = function() {
+  let elemento_htlm = document.getElementById("mostrar")
+
+  elemento_htlm.innerHTML = ""
+
+  if(this.cabecera) {
+    referencia = this.cabecera
+
+    while (referencia.siguiente != null) {
+      elemento_htlm.innerHTML += `
+      <div class="valores">${referencia.valor}</div>
+      <div class="valores">=></div>
+      `
+      referencia = referencia.siguiente
+    }
+    elemento_htlm.innerHTML += `
+    <div class="valores">${referencia.valor}</div>
+    <div class="valores">=></div>
+    <div class="valores">null</div>
+    `
+  } else {
+    return false
+  }
+}
+
 let lista = new Lista();
 
 function agregar() {
     let valor = document.getElementById("valor").value;
     lista.add(valor);
     console.log(lista);
+
+    lista.mostrar()
 }
 
 function buscar() {
     let valor = document.getElementById("valor").value;
-    busqueda = lista.buscar(valor);
+    let busqueda = lista.buscar(valor);
 
     if(busqueda == true) {
-        console.log(`El número ${valor} existe en la lista enlazada.`);
-    } else {
-        console.log(`El número ${valor} NO existe en la lista enlazada.`);
+        document.getElementById("mostrar").innerHTML = `<div class="valores">${valor}</div>`
+    } else{
+        document.getElementById("mostrar").innerHTML = `<p>El número ${valor} NO existe en la lista enlazada.</p>`
     }
+}
+
+function eliminar() {
+  let valor = document.getElementById("valor").value;
+  let eliminar = lista.eliminar(valor)
+
+  if (eliminar == true) {
+    document.getElementById("mostrar").innerHTML = `<p>Valor eliminado: ${valor}</p>`
+  } else {
+    document.getElementById("mostrar").innerHTML = `El número ${valor} NO existe en la lista enlazada.`
+  }
+}
+
+function mostrar() {
+  lista.mostrar()
 }
 
 </script>

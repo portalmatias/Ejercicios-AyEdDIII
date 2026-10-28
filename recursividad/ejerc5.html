@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 5</title>
+</head>
+<body>
+    <form>
+        <label for="base">Base</label>
+        <input type="number" name="base" id="base">
+
+        <label for="exponente">Exponente</label>
+        <input type="number" name="exponente" id="exponente">
+
+        <button type="button" onclick="calcularPotencia()">Calcular Potencia</button>
+    </form>
+</body>
+<script>
+//5. Crea un formulario para calcular la potencia de un número, éste deberá pedir la base y el exponente y calcular dicha potencia.
+
+function calcularPotencia() {
+    let base = parseInt(document.getElementById("base").value);
+    let exponente = parseInt(document.getElementById("exponente").value);
+
+    function potencia(b, e) {
+        if (e === 0) {
+            return 1;
+        } else {
+            return b * potencia(b, e - 1);
+        }
+    }
+
+    let resultado = potencia(base, exponente);
+    alert("El resultado es: " + resultado);
+}
+
+
+</script>
+
+</html>

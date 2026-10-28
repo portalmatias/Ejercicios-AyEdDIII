@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primer Parcial - Recetas </title>
+</head>
+<body>
+
+    <h1>LISTAS ENLAZADAS</h1>
+    <h2>RECETAS</h2>
+
+     <form action="">
+        <button type="button" onclick="crear_receta()">Crear receta</button>
+        <button type="button" onclick="borrar_receta()">Borrar receta</button>
+        <button type="button" onclick="agregar_descripcion()">Agregar paso</button>
+        <button type="button" onclick="eliminar_paso()">Eliminar paso</button>
+        <button type="button" onclick="modificar_paso()">Modificar paso</button>
+        <button type="button" onclick="mostrar_receta()">Mostrar receta</button>
+        <button type="button" onclick="salir()">Salir</button>
+    </form>
+    
+
+    <table>
+        <thead>
+            <div id="nombre_receta"></div>
+            <tr>
+                <th>Numero de orden</th>
+                <th>Descripcion</th>
+            </tr>
+        </thead>
+        <tbody id="contenido_tabla"></tbody>
+    </table>
+</body>
+<style>
+    *{
+        box-sizing: border-box;
+    }
+
+    h1, h2 {
+        text-align: center;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    form {
+        width: 380px;
+        background-color: #222223;
+        padding: 15px;
+        margin: auto;
+        border-radius: 12px;
+        box-shadow: 0 0 3px 3px rgb(54, 53, 53)
+    }
+
+    #nombre_receta {
+        text-align: center;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 25px;
+        margin-bottom: 10px;
+    }
+
+    table {
+        width: 380px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        margin: auto;
+        border-collapse: collapse;
+        background-color: #222223;
+        color: white;
+    }
+
+    th, td {
+        border: 2px solid #000000;
+        padding: 10px;
+        text-align: center;
+    }
+
+    label {
+        display: block;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-weight: bold;
+        color: white;
+    }
+
+    input{
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    input[type=text],button{
+        width: 100%;
+    }
+
+    input,
+    button {
+        padding: 10px;
+        border: none;
+        border-radius: 12px;
+        outline: none;
+        margin-bottom: 18px;
+    }
+
+    button {
+        background-color: #103bd8;
+        color: white;
+    }
+
+
+</style>
+<script>
+    function Lista(nombre) {
+        this.nombre = nombre;
+        this.cant_pasos = 0;
+        this.cabecera = null;
+    }
+
+    function Nodo(num_orden, descripcion) {
+        this.orden = num_orden;
+        this.descripcion = descripcion
+        this.siguiente = null;
+    }
+
+    //crear receta
+    Lista.prototype.crear_receta = function(nombre) {
+        this.nombre = nombre
+        this.cabecera = null
+        this.cant_pasos = 0
+    }
+
+    //agregar descripcion de un paso
+    Lista.prototype.agregar_descripcion = function (descripcion) {
+        let num_orden = this.cant_pasos + 1
+
+        if(this.cabecera === null) {
+            this.cabecera = new Nodo(num_orden, descripcion)
+        } else {
+            let enlace = this.cabecera
+
+            while (enlace.siguiente != null) {
+                enlace = enlace.siguiente
+            }
+
+            enlace.siguiente = new Nodo(num_orden, descripcion)
+        }
+
+        this.cant_pasos++
+    }
+
+    // buscar un paso
+    Lista.prototype.buscar_paso = function (num_orden) {
+        if (this.cabecera.orden === num_orden) {
+            return true
+        } else {
+            let referencia = this.cabecera
+
+            while (referencia.siguiente != null) {
+                if (referencia.siguiente.orden === num_orden) {
+                    return true
+                } else {
+                    referencia = referencia.siguiente
+                }
+            }
+            return false
+        }
+    }
+
+    Lista.prototype.organizar_orden = function() {
+        let referencia = this.cabecera
+        let orden = 1
+
+        while (referencia != null) {
+            referencia.orden = orden
+            orden++
+            referencia = referencia.siguiente
+        }
+    }
+
+    // eliminar un paso
+   Lista.prototype.eliminar_paso = function (num_orden) {
+        if (this.cabecera.orden == num_orden) {
+            this.cabecera = this.cabecera.siguiente
+            this.cant_pasos--
+            this.organizar_orden()
+
+            return true
+        } else {
+            let referencia = this.cabecera
+
+            while (referencia.siguiente != null) {
+                if (referencia.siguiente.orden == num_orden) {
+                    referencia.siguiente = referencia.siguiente.siguiente
+                    this.cant_pasos--
+                    this.organizar_orden()
+
+                    return true
+                } else {
+                    referencia = referencia.siguiente
+                }
+            }
+            return false
+        }
+    }
+
+    //modificar un paso
+    Lista.prototype.modificar = function (num_orden, nueva_descripcion) {
+        if (this.cabecera.orden == num_orden) {
+            this.cabecera.descripcion = nueva_descripcion
+            return true
+        } else {
+            let referencia = this.cabecera
+
+            while (referencia.siguiente != null) {
+                if (referencia.siguiente.orden == num_orden) {
+                    referencia.siguiente.descripcion = nueva_descripcion
+                    return true
+                } else {
+                    referencia = referencia.siguiente
+                }
+            }
+            return false
+        }
+    }
+
+    // borrar receta
+    Lista.prototype.borrar_receta = function() {
+        this.cabecera = null
+        this.cant_pasos = 0
+        this.nombre = ""
+    }
+
+    // Mostrar receta
+    Lista.prototype.mostrar = function() {
+        let elemento_html = document.getElementById("contenido_tabla")
+        let nombre_receta = document.getElementById("nombre_receta")
+
+        elemento_html.innerHTML = ""
+        nombre_receta.innerHTML = this.nombre
+
+        if(this.cabecera) {
+            let referencia = this.cabecera
+
+            while (referencia.siguiente != null) {
+                elemento_html.innerHTML += `
+                <tr>
+                    <td>${referencia.orden}</td>
+                    <td>${referencia.descripcion}</td>
+                </tr>
+                `
+                referencia = referencia.siguiente
+            }
+            elemento_html.innerHTML += `
+            <tr>
+                <td>${referencia.orden}</td>
+                <td>${referencia.descripcion}</td>
+            </tr>
+            `
+        } else {
+            return false
+        }
+    }
+
+
+    let lista_receta = new Lista()
+
+    function crear_receta() {
+        let nombre = prompt("Ingrese el nombre de la receta:")
+
+        if (nombre === "") {
+            alert("El nombre de la receta no puede estar vacío.")
+            return
+        } else {
+            lista_receta.crear_receta(nombre)
+            lista_receta.mostrar()
+        }
+    }
+
+    function borrar_receta() {
+        lista_receta.borrar_receta()
+        lista_receta.mostrar()
+    }
+
+    function agregar_descripcion() {
+        let descripcion = prompt("Ingresa la descripción del paso:")
+
+        if (descripcion === "" || descripcion === null) {
+            alert("La descripción del paso no puede estar vacia.")
+            return
+        } else {
+            lista_receta.agregar_descripcion(descripcion)
+            lista_receta.mostrar()
+        }
+    }
+
+    function eliminar_paso() {
+        let num_orden = parseInt(prompt("Ingresa el número de orden del paso a eliminar:"))
+
+        if (lista_receta.eliminar_paso(num_orden)) {
+            alert(`El paso con número de orden ${num_orden} se elimino.`)
+        } else {
+            alert(`El paso con número de orden ${num_orden} no existe.`)
+        }
+        lista_receta.mostrar()
+    }
+
+    function modificar_paso() {
+        let num_orden = parseInt(prompt("Ingresa el número de orden del paso a modificar:"))
+        let paso = lista_receta.buscar_paso(num_orden)
+
+        if (!paso) {
+            alert(`El paso con numero de orden ${num_orden} no existe.`)
+            return
+        }
+
+        let nueva_descripcion = prompt("Ingresa la nueva descripción del paso:")
+
+
+        lista_receta.modificar(num_orden, nueva_descripcion)
+        lista_receta.mostrar()
+    }
+
+    function mostrar_receta() {
+        if (lista_receta.cabecera === null) {
+            alert("No hay receta creada.")
+            return
+        }
+        lista_receta.mostrar()
+    }
+
+    function salir() {
+        lista_receta.borrar_receta()
+        lista_receta.mostrar()
+
+        alert("Programa finalizado.")
+    }
+
+</script>
+</html>

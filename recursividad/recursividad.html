@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursividad - clase 1</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+
+// Ejemplo 1
+
+function contarNumeros(n){
+    if(n > 0) {
+        contarNumeros(n - 1)
+    }
+    document.write(n)
+}
+
+contarNumeros(5)
+
+
+// Ejemplo 2
+
+function factorial(n) {
+    if(n == 1) {
+        return 1
+    } else {
+        return n * factorial(n - 1)
+    }
+}
+
+let resultado = factorial(5)
+console.log(resultado)
+
+
+// Ejemplo 3
+
+function sumatoria(n) {
+    if(n == 1) {
+        return 1
+    } else {
+        return n + sumatoria(n - 1)
+    }
+}
+
+console.log(sumatoria(5))
+
+
+// Ejemplo 5
+
+let numeros = [3,20,6,5,8,9,3,10]
+
+function maximo(valores) {
+    if(valores.length == 1) {
+        return valores[0]
+    }
+    return Math.max(valores[0], maximo(valores.slice(1)))
+}
+
+let mayor = maximo(numeros)
+
+console.log(mayor)
+
+
+// Ejemplo 5
+
+function digitos(valor) {
+    if(valor < 10) {
+        return 1
+    } else {
+        return digitos(Math.floor(valor / 10)) + 1
+    }
+}
+
+console.log(digitos(68000))
+
+
+// Ejercicio 6: verificar si una palabra es palindromo
+
+function palindromo(palabra) {
+    if (palabra.length == 1) {
+        return true 
+    } else {
+        if(palabra[0] == palabra[palabra.length - 1]) {
+            return palindromo(palabra.slice(1, palabra.length - 1))
+        } else {
+            return false
+        }
+    }
+}
+
+console.log(palindromo("ala"))
+
+
+// Ejemplo 7
+
+function fibonacci(n) {
+    if (n <= 1) {
+       return n 
+    } else {
+        return fibonacci(n - 1) + fibonacci(n - 2);
+    }
+}
+
+console.log(fibonacci(6))
+
+</script>
+</html>

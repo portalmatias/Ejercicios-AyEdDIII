@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 7</title>
+</head>
+<body>
+
+    <form>
+        <label for="texto">Texto (máx. 250 caracteres)</label>
+        <textarea name="texto" id="texto"></textarea>
+
+        <label for="palabra">Palabra a buscar</label>
+        <input type="text" name="palabra" id="palabra">
+
+        <button type="button" onclick="contarPalabra()">Contar Palabra</button>
+    </form>
+    
+</body>
+
+<script>
+    // Crea un formulario con dos cuadros de texto, uno solicitará un texto de 250 caracteres (textarea) y otro que solo ingrese una palabra. Realiza una función que muestre cuántas veces aparece la palabra en el texto ingresado.
+
+    function contarPalabra() {
+        let texto = document.getElementById("texto").value;
+        let palabra = document.getElementById("palabra").value;
+
+        if (texto.length > 250) {
+            alert("El texto debe tener máximo 250 caracteres");
+            return false;
+        }
+
+        function contarRecursivo(texto, palabra) {
+            if (texto.length === 0) {
+                return 0;
+            } else {
+                if (texto.startsWith(palabra)) {
+                    return 1 + contarRecursivo(texto.slice(palabra.length), palabra);
+                } else {
+                    return contarRecursivo(texto.slice(1), palabra);
+                }
+            }
+        }
+
+        let cantidad = contarRecursivo(texto, palabra);
+        alert(`La palabra "${palabra}" aparece ${cantidad} veces en el texto`);
+    }
+</script>
+</html>

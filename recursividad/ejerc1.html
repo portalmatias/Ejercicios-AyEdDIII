@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1 recursividad</title>
+</head>
+<body>
+    <form action="">
+        <label for="valor1">Valor 1</label>
+        <input type="number" name="valor1" id="valor1">
+
+        <label for="valor2">Valor 2</label>
+        <input type="number" name="valor2" id="valor2">
+
+        <button type="button" onclick="procesar()">Aceptar</button>
+    </form>
+</body>
+
+<script>
+ 
+ //Crear un formulario que solicite dos números, y mostrar los números que hay entre éstos dos. Comprobar que hayan ingresados valores numéricos y que el primero sea menor que el segundo.
+
+ function mostrarNumerosEntre(val1, val2) {
+    if (val1 >= val2) {
+        return false
+    } else {
+        document.write(val1 + " ")
+        mostrarNumerosEntre(val1 + 1, val2)
+    }
+}
+
+function procesar() {   
+    let valor1 = parseInt(document.getElementById("valor1").value);
+    let valor2 = parseInt(document.getElementById("valor2").value);
+
+    if(valor1 >= valor2) {
+        alert("El primer valor deber ser menor al segundo.")
+    }
+
+    mostrarNumerosEntre(valor1 + 1, valor2)
+}
+
+</script>
+</html>
