@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    //BUSQUEDA BINARIA
+
+    //Si la longitud de la lista es 0 retorno false
+    //Calcular elemento medio
+    //Pregunto si dicho elemento es el que estoy buscando
+    //Si es asi retorno True
+    //Voy por la otra mitad de la lista
+
+
+    function busqueda(lista, elem) {
+        lista.sort((a,b) => a - b)
+
+        if (lista.length == 0) {
+            return false
+        } else { 
+            let medio = Math.floor(lista.length / 2)
+
+            if (lista[medio] == elem) {
+                return true
+            } else if (lista[medio] > elem) {
+                return busqueda(lista.slice(0, medio), elem)
+            } else {
+                return busqueda(lista.slice(medio), elem)
+            }
+        }
+    }
+
+    let numeros = [5, 2, 8, 1, 9, 3, 7, 4, 6]
+    
+    let num_a_buscar = 7
+
+    console.log(busqueda(numeros, num_a_buscar))
+</script>
+</html>

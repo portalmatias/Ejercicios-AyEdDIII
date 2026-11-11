@@ -19,20 +19,21 @@
 <script>
 //5. Crea un formulario para calcular la potencia de un número, éste deberá pedir la base y el exponente y calcular dicha potencia.
 
+
+function potencia(b, e) {
+    if (e == 0) {
+        return 1;
+    } else {
+        return b * potencia(b, e - 1)
+    }
+}
+
 function calcularPotencia() {
     let base = parseInt(document.getElementById("base").value);
     let exponente = parseInt(document.getElementById("exponente").value);
 
-    function potencia(b, e) {
-        if (e === 0) {
-            return 1;
-        } else {
-            return b * potencia(b, e - 1);
-        }
-    }
-
-    let resultado = potencia(base, exponente);
-    alert("El resultado es: " + resultado);
+    let resultado = potencia(base, exponente)
+    alert("El resultado es:" + resultado)
 }
 
 
