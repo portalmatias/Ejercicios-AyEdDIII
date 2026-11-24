@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulacro 1</title>
+</head>
+<body>
+    
+</body>
+<script>
+
+    // 1
+    function sumatoria(n) {
+        if(n == 1) {
+            return 1
+        }
+        return n + sumatoria(n-1)
+    }
+
+
+
+    // 2
+    function busqueda(lista, elem) {    
+        lista.sort((a,b) => a - b)
+
+        if (lista.length == 0) {
+            contador++
+            return false
+        } else { 
+            let medio = Math.floor(lista.length / 2)
+
+            if (lista[medio] == elem) {
+                contador++
+                return true
+            } else if (lista[medio] > elem) {
+                contador++
+                return busqueda(lista.slice(0, medio), elem)
+            } else {
+                contador++
+                return busqueda(lista.slice(medio), elem)
+            }
+        }
+    }
+
+    let contador = 0
+
+    let numeros = [5, 2, 8, 1, 9, 3, 7, 4, 6]
+
+    let num_a_buscar = 2
+
+    console.log(busqueda(numeros, num_a_buscar));
+
+    console.log(contador);
+
+
+    // 3
+    function Tree(value) {
+        this.data = value
+        this.right = null
+        this.left = null
+    }
+
+    Tree.prototype.add = function(value) {
+        if (value < this.data) {
+            if(this.left == null) {
+                this.left = new Tree(value)
+            } else {
+                this.left.add(value)
+            }
+        } else {
+            if(this.right == null) {
+                this.right = new Tree(value)
+            } else {
+                this.right.add(value)
+            }
+        }
+    }
+
+    // 45, 20, 10, 30, 80, 50, 90, 25
+    let tree = new Tree(45)
+    tree.add(20)
+    tree.add(10)
+    tree.add(30)
+    tree.add(80)
+    tree.add(50)
+    tree.add(90)
+    tree.add(25)
+
+    console.log(tree);
+
+    //Recorridos
+
+    //Recorrido pre orden
+
+    let contenedor = []
+
+    Tree.prototype.recorrido1 = function() {
+        contenedor.push(this.data) 
+        if(this.left) {
+            this.left.recorrido1()
+        }
+        if(this.right) {
+            this.right.recorrido1()
+        }
+    }
+
+    tree.recorrido1()
+    console.log(contenedor);
+
+
+
+    //Recorrido in orden
+
+    contenedor = []
+
+    Tree.prototype.recorrido2 = function() {
+        if(this.left) {
+            this.left.recorrido2()
+        }
+        contenedor.push(this.data)
+        if(this.right) {
+            this.right.recorrido2()
+        }
+    }
+
+    tree.recorrido2()
+    console.log(contenedor);
+
+
+
+    //Recorrido post orden
+
+    contenedor = []
+    let hojas = 0
+
+    Tree.prototype.recorrido3 = function() {
+        if(this.left) {
+            this.left.recorrido3()
+        }
+        if(this.right) {
+            this.right.recorrido3()
+        }
+        if(this.left == null && this.right == null) {
+            hojas++
+        }
+
+        contenedor.push(this.data)
+    }
+
+    tree.recorrido3()
+    console.log(contenedor);
+    console.log("Cantidad de hojas:", hojas);
+
+    // 5
+
+    Tree.prototype.buscar = function(value) {
+        if(value == this.data) {
+            return true
+        } else if (value < this.data) {
+            if (this.left == null) {
+                return false
+            } else {
+                return this.left.buscar(value)
+            }
+        } else {
+            if (this.right == null) {
+                return false
+            } else {
+                return this.right.buscar(value)
+            }
+        }
+    }
+
+    console.log(tree.buscar(30));
+    console.log(tree.buscar(99));
+    
+</script>
+</html>
