@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulacro 2</title>
+</head>
+<body>
+</body>
+<script>
+
+    // ARBOL DE AUTOS 
+
+    function Tree(modelo, velocidad) {
+        this.modelo = modelo
+        this.velocidad = velocidad
+        this.right = null
+        this.left = null
+    }
+
+    Tree.prototype.add = function(modelo, velocidad) {
+        if (velocidad < this.velocidad) {
+            if(this.left == null) {
+                this.left = new Tree(modelo, velocidad)
+            } else {
+                this.left.add(modelo, velocidad)
+            }
+        } else {
+            if(this.right == null) {
+                this.right = new Tree(modelo, velocidad)
+            } else {
+                this.right.add(modelo, velocidad)
+            }
+        }
+    }
+
+    let tree = new Tree("Fiesta", 200)
+    tree.add("Clio", 155)
+    tree.add("Civic", 210)
+    tree.add("Idea", 170)
+    tree.add("Siena", 180)
+    tree.add("Gol", 160)
+    tree.add("Corolla", 190)
+    tree.add("Golf", 230)
+
+    console.log(tree);
+
+    let contenedor = []
+
+
+    // 1 - Mostrar los tres recorridos
+
+    //Recorrido pre orden
+    Tree.prototype.recorrido1 = function() {
+        contenedor.push(this.modelo + " " + this.velocidad)
+        if(this.left) {
+            this.left.recorrido1()
+        }
+        if(this.right) {
+            this.right.recorrido1()
+        }
+    }
+
+    //Recorrido in orden
+    Tree.prototype.recorrido2 = function() {
+        if(this.left) {
+            this.left.recorrido2()
+        }
+        contenedor.push(this.modelo + " " + this.velocidad)
+        if(this.right) {
+            this.right.recorrido2()
+        }
+    }
+
+    //Recorrido post orden
+    Tree.prototype.recorrido3 = function() {
+        if(this.left) {
+            this.left.recorrido3()
+        }
+        if(this.right) {
+            this.right.recorrido3()
+        }
+        contenedor.push(this.modelo + " " + this.velocidad)
+    }
+
+    contenedor = []
+    tree.recorrido1()
+    console.log("1) Pre orden:", contenedor);
+
+    contenedor = []
+    tree.recorrido2()
+    console.log("1) In orden:", contenedor);
+
+    contenedor = []
+    tree.recorrido3()
+    console.log("1) Post orden:", contenedor);
+
+
+    // 2 - Mostrar los autos ordenados de mayor a menor velocidad
+    // (es el in orden pero al reves: primero derecha, despues el nodo, despues izquierda)
+
+    Tree.prototype.descendente = function() {
+        if(this.right) {
+            this.right.descendente()
+        }
+        contenedor.push(this.modelo + " " + this.velocidad)
+        if(this.left) {
+            this.left.descendente()
+        }
+    }
+
+    contenedor = []
+    tree.descendente()
+    console.log("2) Descendente:", contenedor);
+
+
+    // 3 - Buscar un auto por velocidad
+    // (como el arbol esta ordenado por velocidad, va solo por una rama)
+
+    Tree.prototype.buscar = function(velocidad) {
+        if(velocidad == this.velocidad) {
+            return true
+        } else if (velocidad < this.velocidad) {
+            if (this.left == null) {
+                return false
+            } else {
+                return this.left.buscar(velocidad)
+            }
+        } else {
+            if (this.right == null) {
+                return false
+            } else {
+                return this.right.buscar(velocidad)
+            }
+        }
+    }
+
+    console.log("3) Buscar 180:", tree.buscar(180));
+    console.log("3) Buscar 999:", tree.buscar(999));
+
+
+    // 4 - Buscar un auto por modelo
+    // (el arbol no esta ordenado por modelo, hay que revisar todo)
+
+    Tree.prototype.buscar_modelo = function(modelo) {
+        if (this.modelo == modelo) {
+            return true
+        }
+        if (this.left && this.left.buscar_modelo(modelo)) {
+            return true
+        }
+        if (this.right && this.right.buscar_modelo(modelo)) {
+            return true
+        }
+        return false
+    }
+
+    console.log("4) Buscar Clio:", tree.buscar_modelo("Clio"));
+    console.log("4) Buscar Ferrari:", tree.buscar_modelo("Ferrari"));
+
+
+    // 5 - Contar la cantidad de autos, de hojas y de autos que superan los 180 km/h
+
+    let cantidad = 0
+    let hojas = 0
+    let mayores_180 = 0
+
+    Tree.prototype.contar = function() {
+        if(this.left) {
+            this.left.contar()
+        }
+        if(this.right) {
+            this.right.contar()
+        }
+
+        cantidad++
+
+        if(this.left == null && this.right == null) {
+            hojas++
+        }
+
+        if(this.velocidad > 180) {
+            mayores_180++
+        }
+    }
+
+    tree.contar()
+    console.log("5) Cantidad de autos:", cantidad);
+    console.log("5) Cantidad de hojas:", hojas);
+    console.log("5) Autos de mas de 180:", mayores_180);
+
+
+    // 6 - Calcular la altura del arbol
+
+    Tree.prototype.altura = function() {
+        let altura_izq = 0
+        let altura_der = 0
+
+        if(this.left) {
+            altura_izq = this.left.altura()
+        }
+        if(this.right) {
+            altura_der = this.right.altura()
+        }
+
+        if(altura_izq > altura_der) {
+            return altura_izq + 1
+        } else {
+            return altura_der + 1
+        }
+    }
+
+    console.log("6) Altura:", tree.altura());
+
+
+    // 7 - Velocidad minima y maxima sin recorrer todo el arbol
+    // (el minimo esta todo a la izquierda y el maximo todo a la derecha)
+
+    Tree.prototype.minimo = function() {
+        if(this.left == null) {
+            return this.modelo + " " + this.velocidad
+        }
+        return this.left.minimo()
+    }
+
+    Tree.prototype.maximo = function() {
+        if(this.right == null) {
+            return this.modelo + " " + this.velocidad
+        }
+        return this.right.maximo()
+    }
+
+    console.log("7) Minimo:", tree.minimo());
+    console.log("7) Maximo:", tree.maximo());
+
+
+    // 8 - Mostrar solo los autos con velocidad entre 160 y 200
+
+    Tree.prototype.entre = function(desde, hasta) {
+        if(this.left) {
+            this.left.entre(desde, hasta)
+        }
+        if(this.velocidad >= desde && this.velocidad <= hasta) {
+            contenedor.push(this.modelo + " " + this.velocidad)
+        }
+        if(this.right) {
+            this.right.entre(desde, hasta)
+        }
+    }
+
+    contenedor = []
+    tree.entre(160, 200)
+    console.log("8) Entre 160 y 200:", contenedor);
+
+
+    // 9 - No permitir cargar dos autos con la misma velocidad
+
+    function cargar_sin_repetir(modelo, velocidad) {
+        if (tree.buscar(velocidad)) {
+            console.log("9) Ya existe un auto con velocidad " + velocidad);
+        } else {
+            tree.add(modelo, velocidad)
+            console.log("9) Se cargo el " + modelo);
+        }
+    }
+
+    cargar_sin_repetir("Onix", 180)
+    cargar_sin_repetir("Onix", 175)
+
+
+    // RECURSIVIDAD
+
+    // 10 - Factorial
+
+    function factorial(n) {
+        if(n == 0) {
+            return 1
+        }
+        return n * factorial(n-1)
+    }
+
+    console.log("10) Factorial de 5:", factorial(5));
+
+
+    // 11 - Potencia (base elevado a exponente)
+
+    function potencia(base, exponente) {
+        if(exponente == 0) {
+            return 1
+        }
+        return base * potencia(base, exponente-1)
+    }
+
+    console.log("11) 2 elevado a 10:", potencia(2, 10));
+
+
+    // 12 - Fibonacci
+
+    function fibonacci(n) {
+        if(n <= 1) {
+            return n
+        }
+        return fibonacci(n-1) + fibonacci(n-2)
+    }
+
+    console.log("12) Fibonacci de 10:", fibonacci(10));
+
+
+    // 13 - Invertir un texto
+
+    function invertir(texto) {
+        if(texto == "") {
+            return ""
+        }
+        return invertir(texto.slice(1)) + texto[0]
+    }
+
+    console.log("13) Invertir 'arbol':", invertir("arbol"));
+
+
+    // 14 - Sumar los digitos de un numero
+
+    function suma_digitos(n) {
+        if(n < 10) {
+            return n
+        }
+        return (n % 10) + suma_digitos(Math.floor(n / 10))
+    }
+
+    console.log("14) Suma de digitos de 1234:", suma_digitos(1234));
+
+
+    // 15 - Busqueda binaria recursiva contando las comparaciones
+
+    let contador = 0
+
+    function busqueda(lista, elem) {
+        contador++
+
+        if (lista.length == 0) {
+            return false
+        }
+
+        let medio = Math.floor(lista.length / 2)
+
+        if (lista[medio] == elem) {
+            return true
+        } else if (lista[medio] > elem) {
+            return busqueda(lista.slice(0, medio), elem)
+        } else {
+            return busqueda(lista.slice(medio + 1), elem)
+        }
+    }
+
+    let numeros = [5, 2, 8, 1, 9, 3, 7, 4, 6]
+    numeros.sort((a,b) => a - b)
+
+    console.log("15) Buscar 7:", busqueda(numeros, 7), "comparaciones:", contador);
+    contador = 0
+    console.log("15) Buscar 10:", busqueda(numeros, 10), "comparaciones:", contador);
+
+</script>
+</html>

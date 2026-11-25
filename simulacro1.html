@@ -38,7 +38,7 @@
                 return busqueda(lista.slice(0, medio), elem)
             } else {
                 contador++
-                return busqueda(lista.slice(medio), elem)
+                return busqueda(lista.slice(medio + 1), elem)
             }
         }
     }

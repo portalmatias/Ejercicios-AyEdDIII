@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segundo Parcial - Claves seguras</title>
+</head>
+<body>
+
+    <h1>ARBOLES BINARIOS</h1>
+    <h2>CLAVES SEGURAS</h2>
+
+    <form action="">
+        <label for="tamaño">Tamaño de la contraseña:</label>
+        <input type="number" id="tamaño" name="tamaño">
+        <button type="button" onclick="generar_clave()">Generar</button>
+    </form>
+
+    <p id="pre_orden"></p>
+    <p id="in_orden"></p>
+    <p id="post_orden"></p>
+</body>
+<script>
+    let mayusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    let minusculas = "abcdefghijklmnopqrstuvwxyz"
+    let numeros = "0123456789"
+    let especiales = "!@#$%^&*()_+-={}[]|\\:;<>,.?/"
+
+    function Tree(value) {
+        this.data = value
+        this.right = null
+        this.left = null
+    }
+
+    Tree.prototype.add = function(value) {
+        if (value < this.data) {
+            if(this.left == null) {
+                this.left = new Tree(value)
+            } else {
+                this.left.add(value)
+            }
+        } else {
+            if(this.right == null) {
+                this.right = new Tree(value)
+            } else {
+                this.right.add(value)
+            }
+        }
+    }
+
+    Tree.prototype.buscar = function(value) {
+        if(value == this.data) {
+            return true
+        } else if (value < this.data) {
+            if (this.left == null) {
+                return false
+            } else {
+                return this.left.buscar(value)
+            }
+        } else {
+            if (this.right == null) {
+                return false
+            } else {
+                return this.right.buscar(value)
+            }
+        }
+    }
+
+    //RECORRIDOS
+
+    let contenedor = []
+
+    //Recorrido pre orden
+    Tree.prototype.recorrido1 = function() {
+        contenedor.push(this.data)
+        if(this.left) {
+            this.left.recorrido1()
+        }
+        if(this.right) {
+            this.right.recorrido1()
+        }
+    }
+
+    //Recorrido in orden
+    Tree.prototype.recorrido2 = function() {
+        if(this.left) {
+            this.left.recorrido2()
+        }
+        contenedor.push(this.data)
+        if(this.right) {
+            this.right.recorrido2()
+        }
+    }
+
+    //Recorrido post orden
+    Tree.prototype.recorrido3 = function() {
+        if(this.left) {
+            this.left.recorrido3()
+        }
+        if(this.right) {
+            this.right.recorrido3()
+        }
+        contenedor.push(this.data)
+    }
+
+
+    function generar_clave() {
+        let tamaño = parseInt(document.getElementById("tamaño").value)
+
+        if (isNaN(tamaño) || tamaño < 8) {
+            alert("La contraseña debe tener al menos 8 caracteres")
+            return
+        }
+
+        if (tamaño > 90) {
+            alert("La contraseña puede tener como maximo 90 caracteres")
+            return
+        }
+
+        let grupos = [mayusculas, minusculas, numeros, especiales]
+
+        // al menos un caracter de cada grupo
+        let cantidades = [1, 1, 1, 1]
+
+        // el resto se reparte al azar entre los grupos
+        let resto = tamaño - 4
+
+        while (resto > 0) {
+            let g = Math.floor(Math.random() * 4)
+
+            if (cantidades[g] < grupos[g].length) {
+                cantidades[g]++
+                resto--
+            }
+        }
+
+        console.log(cantidades);
+
+        // se cargan los caracteres en el arbol sin repetir
+        let tree = null
+
+        for (let i = 0; i < 4; i++) {
+            let j = 0
+
+            while (j < cantidades[i]) {
+                let caracter = grupos[i][Math.floor(Math.random() * grupos[i].length)]
+
+                if (tree == null) {
+                    tree = new Tree(caracter)
+                    j++
+                } else if (!tree.buscar(caracter)) {
+                    tree.add(caracter)
+                    j++
+                }
+            }
+        }
+
+        console.log(tree);
+
+        contenedor = []
+        tree.recorrido1()
+        document.getElementById("pre_orden").innerText = "Pre orden: " + contenedor.join("")
+
+        contenedor = []
+        tree.recorrido2()
+        document.getElementById("in_orden").innerText = "In orden: " + contenedor.join("")
+
+        contenedor = []
+        tree.recorrido3()
+        document.getElementById("post_orden").innerText = "Post orden: " + contenedor.join("")
+    }
+
+</script>
+</html>

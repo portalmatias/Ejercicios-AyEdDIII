@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segundo Parcial - Vehiculos</title>
+</head>
+<body>
+
+    <div class="contenedor">
+        <form action="">
+            <h2>Datos del vehículo</h2>
+            <label for="modelo">Modelo</label>
+            <input type="text" id="modelo" name="modelo">
+            <label for="velocidad">Velocidad Máxima</label>
+            <input type="number" id="velocidad" name="velocidad">
+            <button type="button" onclick="cargar()">Cargar</button>
+        </form>
+
+        <div class="tabla">
+            <h2>Orden Ascendente</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Modelo</th>
+                        <th>Velocidad</th>
+                    </tr>
+                </thead>
+                <tbody id="contenido_tabla"></tbody>
+            </table>
+            <div id="resultados"></div>
+        </div>
+    </div>
+</body>
+<style>
+    *{
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        height: 100vh;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        background-image: url("auto.jpg");
+        background-color: #8a1c1c;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .contenedor {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 30px;
+    }
+
+    h2 {
+        text-align: center;
+        color: white;
+        margin-top: 0;
+    }
+
+    form {
+        width: 380px;
+        padding: 20px;
+        border-radius: 12px;
+        background-color: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+    }
+
+    label {
+        display: block;
+        color: white;
+        font-size: 14px;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 25px;
+        border: none;
+        border-bottom: 2px solid white;
+        background: transparent;
+        color: white;
+        outline: none;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #1a73e8;
+        color: white;
+    }
+
+    .tabla {
+        width: 380px;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #deb887;
+    }
+
+    th, td {
+        border: 1px solid #555;
+        padding: 6px;
+    }
+
+    td:last-child {
+        text-align: right;
+    }
+
+    #resultados {
+        text-align: center;
+        color: white;
+        margin-top: 8px;
+    }
+</style>
+<script>
+    function Tree(modelo, velocidad) {
+        this.modelo = modelo
+        this.velocidad = velocidad
+        this.right = null
+        this.left = null
+    }
+
+    // se ordena por velocidad
+    Tree.prototype.add = function(modelo, velocidad) {
+        if (velocidad < this.velocidad) {
+            if(this.left == null) {
+                this.left = new Tree(modelo, velocidad)
+            } else {
+                this.left.add(modelo, velocidad)
+            }
+        } else {
+            if(this.right == null) {
+                this.right = new Tree(modelo, velocidad)
+            } else {
+                this.right.add(modelo, velocidad)
+            }
+        }
+    }
+
+    let contenedor = []
+
+    //Recorrido in orden (queda de menor a mayor)
+    Tree.prototype.recorrido2 = function() {
+        if(this.left) {
+            this.left.recorrido2()
+        }
+        contenedor.push(this)
+        if(this.right) {
+            this.right.recorrido2()
+        }
+    }
+
+    let tree = null
+
+    function cargar() {
+        let modelo = document.getElementById("modelo").value
+        let velocidad = parseInt(document.getElementById("velocidad").value)
+
+        if (modelo === "" || isNaN(velocidad)) {
+            alert("Complete el modelo y la velocidad")
+            return
+        }
+
+        if (tree == null) {
+            tree = new Tree(modelo, velocidad)
+        } else {
+            tree.add(modelo, velocidad)
+        }
+
+        console.log(tree);
+
+        document.getElementById("modelo").value = ""
+        document.getElementById("velocidad").value = ""
+
+        mostrar()
+    }
+
+    function mostrar() {
+        contenedor = []
+        tree.recorrido2()
+
+        let elemento_html = document.getElementById("contenido_tabla")
+        elemento_html.innerHTML = ""
+
+        let suma = 0
+
+        for (let i = 0; i < contenedor.length; i++) {
+            elemento_html.innerHTML += `
+            <tr>
+                <td>${contenedor[i].modelo}</td>
+                <td>${contenedor[i].velocidad}</td>
+            </tr>
+            `
+            suma += contenedor[i].velocidad
+        }
+
+        // como esta ordenado, el primero es el minimo y el ultimo el maximo
+        let promedio = Math.round(suma / contenedor.length)
+        let minima = contenedor[0].velocidad
+        let maxima = contenedor[contenedor.length - 1].velocidad
+
+        document.getElementById("resultados").innerHTML = `
+            Velocidad promedio: ${promedio} <br>
+            Velocidad mínima: ${minima} <br>
+            Velocidad máxima: ${maxima}
+        `
+    }
+
+</script>
+</html>
