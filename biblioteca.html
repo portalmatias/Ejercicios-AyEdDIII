@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>practica arboles</title>
+</head>
+<body>
+
+    <h1>ARBOLES - RECURSIVIDAD</h1>
+    <h2>BIBLIOTECA</h2>
+
+    <form action="">
+        <button type="button" onclick="agregar_libro()">AGREGAR LIBRO</button>
+        <button type="button" onclick="buscar_libro()">BUSCAR LIBRO</button>
+        <button type="button" onclick="mostrar_libros()">MOSTRAR LIBROS</button>
+        <button type="button" onclick="recorridos()">RECORRIDOS</button>
+        <button type="button" onclick="cantidad_libros()">CANTIDAD LIBROS</button>
+        <button type="button" onclick="menor_mayor()">MENOR Y MAYOR CODIGO</button>
+        <button type="button" onclick="vaciar()">VACIAR BIBLIOTECA</button>
+    </form>
+    
+
+    <table>
+        <thead>
+            <div id="libro"></div>
+            <tr>
+                <th>Codigo</th>
+                <th>Titulo</th>
+            </tr>
+        </thead>
+        <tbody id="contenido_tabla"></tbody>
+    </table>
+</body>
+<style>
+     *{
+        box-sizing: border-box;
+    }
+
+    h1, h2 {
+        text-align: center;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    form {
+        width: 380px;
+        background-color: #222223;
+        padding: 15px;
+        margin: auto;
+        border-radius: 12px;
+        box-shadow: 0 0 3px 3px rgb(54, 53, 53)
+    }
+
+    table {
+        width: 380px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        margin: auto;
+        border-collapse: collapse;
+        background-color: #222223;
+        color: white;
+    }
+
+    th, td {
+        border: 2px solid #000000;
+        padding: 10px;
+        text-align: center;
+    }
+
+    label {
+        display: block;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-weight: bold;
+        color: white;
+    }
+
+    input{
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    input[type=text],button{
+        width: 100%;
+    }
+
+    input,
+    button {
+        padding: 10px;
+        border: none;
+        border-radius: 12px;
+        outline: none;
+        margin-bottom: 18px;
+    }
+
+    button {
+        background-color: #103bd8;
+        color: white;
+    }
+</style>
+<script>
+    function Tree(codigo, titulo) {
+        this.codigo = codigo
+        this.titulo = titulo
+        this.right = null
+        this.left = null
+    }
+
+    Tree.prototype.buscar = function(codigo) {
+        if(codigo == this.codigo) {
+            return this.titulo
+        } else if (codigo < this.codigo) {
+            if (this.left == null) {
+                return false
+            } else {
+                return this.left.buscar(codigo)
+            }
+        } else {
+            if (this.right == null) {
+                return false
+            } else {
+                return this.right.buscar(codigo)
+            }
+        }
+    }
+
+    Tree.prototype.add = function(codigo, titulo) {
+        if (codigo < this.codigo) {
+            if(this.left == null) {
+                this.left = new Tree(codigo, titulo)
+            } else {
+                this.left.add(codigo, titulo)
+            }
+        } else {
+            if(this.right == null) {
+                this.right = new Tree(codigo, titulo)
+            } else {
+                this.right.add(codigo, titulo)
+            }
+        }
+    }
+
+    let contenedor = []
+
+    Tree.prototype.recorrido2 = function() {
+        if(this.left) {
+            this.left.recorrido2()
+        }
+        contenedor.push(this)
+        if(this.right) {
+            this.right.recorrido2()
+        }
+    }
+
+    Tree.prototype.recorrido1 = function() {
+        contenedor.push(this)
+        if(this.left) {
+            this.left.recorrido1()
+        }
+        if(this.right) {
+            this.right.recorrido1()
+        }
+    }
+
+    Tree.prototype.recorrido3 = function() {
+        if(this.left) {
+            this.left.recorrido3()
+        }
+        if(this.right) {
+            this.right.recorrido3()
+        }
+        contenedor.push(this)
+    }
+
+    Tree.prototype.minimo = function() {
+        if(this.left == null) {
+            return this
+        }
+        return this.left.minimo()
+    }
+
+    Tree.prototype.maximo = function() {
+        if(this.right == null) {
+            return this
+        }
+        return this.right.maximo()
+    }
+
+    let tree = null
+
+    function agregar_libro() {
+        let codigo = parseInt(prompt("Ingrese el código del libro:"))
+        let titulo = prompt("Ingrese el título del libro:")
+
+        if (tree == null) {
+            tree = new Tree(codigo, titulo)
+        } else if (tree.buscar(codigo)) {
+            alert("Ya existe un libro con el código " + codigo)
+        } else {
+            tree.add(codigo, titulo)
+        }
+    }
+
+    function buscar_libro() {
+        if (tree == null) {
+            alert("No hay libros cargados")
+            return
+        }
+
+        let codigo = parseInt(prompt("Ingrese el código del libro:"))
+        let resultado = tree.buscar(codigo)
+
+        if (resultado == false) {
+            alert("Este libro no existe.")
+        } else {
+            alert("Libro: " + resultado)
+        } 
+    }
+
+    function mostrar_libros() {
+        if (tree == null) {
+            alert("No hay libros cargados")
+            return
+        }
+
+        contenedor = []
+        tree.recorrido2()
+
+        let elemento_html = document.getElementById("contenido_tabla")
+        elemento_html.innerHTML = ""
+
+        for (let i = 0; i < contenedor.length; i++) {
+            elemento_html.innerHTML += `
+            <tr>
+                <td>${contenedor[i].codigo}</td>
+                <td>${contenedor[i].titulo}</td>
+            </tr>
+            `
+        }
+    }
+
+    function codigos() {
+        let texto = ""
+        for (let i = 0; i < contenedor.length; i++) {
+            texto += contenedor[i].codigo + " "
+        }
+        return texto
+    }
+
+    function recorridos() {
+        if (tree == null) {
+            alert("No hay libros cargados")
+            return
+        }
+
+        contenedor = []
+        tree.recorrido1()
+        let pre_orden = codigos()
+
+        contenedor = []
+        tree.recorrido2()
+        let in_orden = codigos()
+
+        contenedor = []
+        tree.recorrido3()
+        let post_orden = codigos()
+
+        alert("Pre orden: " + pre_orden + " In orden: " + in_orden + " Post orden: " + post_orden)
+    }
+
+    function cantidad_libros() {
+        if (tree == null) {
+            alert("No hay libros cargados")
+            return
+        }
+
+        contenedor = []
+        tree.recorrido2()
+
+        alert("Cantidad de libros: " + contenedor.length)
+    }
+
+    function menor_mayor() {
+        if (tree == null) {
+            alert("No hay libros cargados")
+            return
+        }
+
+        let menor = tree.minimo()
+        let mayor = tree.maximo()
+
+        alert("Menor código: " + menor.codigo + " - " + menor.titulo + " Mayor código: " + mayor.codigo + " - " + mayor.titulo)
+    }
+
+    function vaciar() {
+        tree = null
+        contenedor = []
+        document.getElementById("contenido_tabla").innerHTML = ""
+        alert("Se vació la biblioteca")
+    }
+</script>
+</html>
